@@ -1,0 +1,32 @@
+#dot-typing {
+  bottom: 13%;
+  left: 22%;
+  font-size: 5rem;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+#dot-1 {
+  color: yellowgreen;
+  animation: typing 1.8s infinite;
+}
+#dot-2 {
+  animation: typing 1.8s infinite;
+  -webkit-animation: typing 1.8s infinite;
+  animation-delay: .4s;
+  color: green;
+
+}
+#dot-3 {
+  animation: typing 1.8s infinite;
+  animation-delay: .6s;
+  color: #047857;
+
+}
+
+@keyframes typing{
+  50%{
+    transform: translateY(-10px);
+  }
+}
