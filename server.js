@@ -28,7 +28,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 // PROD
-app.use(express.static("client-chat/build"));
 
 app.get("*", checkUser);
 app.get("/jwtid", requireAuth, (req, res) => {
@@ -38,6 +37,7 @@ app.get("/jwtid", requireAuth, (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/chatrooms", messageRoutes );
 
+app.use(express.static("client-chat/build"));
 app.get("/*", (_, res) => {
   res.sendFile(path.join(__dirname, "./client-chat/public/index.html"));
 
@@ -47,7 +47,8 @@ const server = http.createServer(app)
 
 // websocket
 initSocket(server);
+const PORT = process.env.PORT || 8000;
 
-server.listen(8000, () => {
-  console.log("listening on *:8000");
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
