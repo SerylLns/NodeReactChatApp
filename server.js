@@ -14,7 +14,7 @@ const app = express();
 
 // CORS
 const corsOptions = {
-  origin: "http://www.localhost:3000",
+  origin: `${process.env.CLIENT_URL}`,
   credentials: true,
   // allowedHeaders: ["sessionId", "Content-Type"],
   // exposedHeaders: ["sessionId"],
