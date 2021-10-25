@@ -25,7 +25,7 @@ function App() {
       })
         .then((res) => {
           setUid(res.data);
-          const newSocket = io("http://localhost:8000");
+          const newSocket = io(`${process.env.REACT_APP_API_URL}`);
           setSocket(newSocket);
         })
         .catch((err) => {
