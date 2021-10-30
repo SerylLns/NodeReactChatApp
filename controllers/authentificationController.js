@@ -5,7 +5,7 @@ const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
-    expiresIn: maxAge
+    expiresIn: maxAge,
   });
 };
 
@@ -15,6 +15,7 @@ module.exports.signUp = async (req, res) => {
     const user = await UserModel.create({ pseudo, email, password });
     res.status(201).json({ user: user._id });
   } catch (error) {
+    console.log(error);
     res.status(200).send({ error });
   }
 };
@@ -24,10 +25,12 @@ module.exports.signIn = async (req, res) => {
   try {
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge });
+    console.log(token);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
     res.status(200).json({ user: user._id });
-  } catch (error) {
-    res.status(200).send(error);
+  } catch (err) {
+    let response = { errors: 'invalid email or password' }
+    res.status(200).send(response);
   }
 };
 

@@ -11,7 +11,7 @@ const SignIn = ({ setLogin }) => {
     const errors = document.querySelector("#error-field");
     const errorDiv = document.querySelector("#error-div");
     axios({
-      method: "post",
+      method: "POST",
       url: `${process.env.REACT_APP_API_URL}api/users/login`,
       withCredentials: true,
       data: {
@@ -20,11 +20,10 @@ const SignIn = ({ setLogin }) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.error) {
-          errorDiv.setAttribute("hidden", "");
-          errors.innerHTML = res.data.errors.email;
-          errors.innerHTML += res.data.errors.password;
+        if (res.data.errors) {
+          console.log(res.data);
+          errorDiv.style.display = "block";
+          errors.innerHTML = "Mot de passe ou email incorrect";
         } else {
           window.location = "/"; //ALler a l'accueil
         }
@@ -76,7 +75,7 @@ const SignIn = ({ setLogin }) => {
         </div>
       </div>
       {/* error message */}
-      <div hidden id="error-div" className="rounded-md  bg-red-50 p-4">
+      <div style={{display: "none"}} id="error-div" className="rounded-md  bg-red-50 p-4">
         <div className="flex">
           <div className="flex-shrink-0">
             <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />

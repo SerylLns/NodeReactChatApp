@@ -14,20 +14,19 @@ const app = express();
 
 // CORS
 const corsOptions = {
-  origin: `${process.env.CLIENT_URL}`,
+  origin: `http://www.localhost:3000`,
   credentials: true,
-  // allowedHeaders: ["sessionId", "Content-Type"],
-  // exposedHeaders: ["sessionId"],
+  allowedHeaders: ["sessionId", "Content-Type"],
+  exposedHeaders: ["sessionId"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
 };
 // middleware
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
 
-// PROD
 
 app.get("*", checkUser);
 app.get("/jwtid", requireAuth, (req, res) => {
@@ -37,11 +36,12 @@ app.get("/jwtid", requireAuth, (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/chatrooms", messageRoutes );
 
-app.use(express.static("client-chat/build"));
-app.get("/*", (_, res) => {
-  res.sendFile(path.join(__dirname, "./client-chat/public/index.html"));
+// PROD
+// app.use(express.static("client-chat/build"));
+// app.get("/*", (_, res) => {
+//   res.sendFile(path.join(__dirname, "./client-chat/public/index.html"));
 
-});
+// });
 
 const server = http.createServer(app)
 

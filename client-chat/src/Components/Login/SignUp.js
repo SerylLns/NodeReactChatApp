@@ -1,17 +1,27 @@
-import { XCircleIcon } from '@heroicons/react/solid';
-import axios from 'axios';
-import React, { useState } from 'react';
+import { XCircleIcon } from "@heroicons/react/solid";
+import axios from "axios";
+import React, { useState } from "react";
 
 const SignUp = ({ setLogin }) => {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [pseudo, setPseudo] = useState("");
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errors = document.querySelector("#error-field");
+
+  const displayErrors = (text) => {
     const errorDiv = document.querySelector("#error-div");
+    const errors = document.querySelector("#error-field");
+    errorDiv.style.display = "block";
+    errors.innerText = "";
+    errors.innerText += text;
+  };
+
+  const handleSubmit = async (e) => {
+    if (password !== passwordConfirm) {
+      displayErrors("Les mots de passe ne correspondent pas");
+      return false;
+    }
+    e.preventDefault();
     await axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}api/users/register`,
@@ -20,19 +30,31 @@ const SignUp = ({ setLogin }) => {
         email,
         password,
       },
-    }).then((res) => {
-        if (res.data.errors) {
-          errorDiv.setAttribute("hidden", "");
-          errors.innerHTML = res.data.errors.pseudo;
-          errors.innerHTML += res.data.errors.email;
-          errors.innerHTML += res.data.errors.password;
+    })
+      .then((res) => {
+        if (res.data.error) {
+          if (
+            ["errors"] in res.data.error &&
+            ["password"] in res.data.error.errors
+          ) {
+            displayErrors("Le mot de passe doit contenir plus de 6 caractéres");
+          }
+          if (["keyPattern"] in res.data.error) {
+            if (["email"] in res.data.error.keyPattern) {
+              displayErrors("L'email semble invalide ou est déja utilisé");
+            }
+            console.log(["pseudo"] in res.data.error.keyPattern);
+            if (["pseudo"] in res.data.error.keyPattern) {
+              displayErrors("Le pseudo est invalide ou est déja utilisé");
+            }
+          }
         } else {
-          setLogin(true)
+          setLogin(true);
         }
       })
       .catch((err) => console.log(err));
   };
-  
+
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
       <div>
@@ -114,7 +136,7 @@ const SignUp = ({ setLogin }) => {
         </div>
       </div>
 
-      <div hidden id="error-div" className="rounded-md  bg-red-50 p-4">
+      <div hidden id="error-div" className="rounded-md mt-3  bg-red-50 p-4">
         <div className="flex">
           <div className="flex-shrink-0">
             <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />

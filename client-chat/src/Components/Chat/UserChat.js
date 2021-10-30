@@ -38,7 +38,7 @@ const UserChat = ({ setOpenUsersChat }) => {
                       <div className="flex-shrink-0">
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={`/uploads/users/${user.picture}`}
+                          src={`${__dirname}/uploads/users/${user.picture}`}
                           alt=""
                         />
                       </div>

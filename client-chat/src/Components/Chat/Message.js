@@ -8,6 +8,8 @@ const Message = ({ message, currentChatroom, fullViewImg }) => {
   const [video, setVideo] = useState()
   const [currentMessage, setCurrentMessage] = useState(message.content);
   useEffect(() => {
+
+    console.log(`${__dirname}`);
     let video = youtubeVideo(message.content);
     if (video !== null) {
       setVideo(video.youtubeLink);
@@ -33,7 +35,7 @@ const Message = ({ message, currentChatroom, fullViewImg }) => {
                 onClick={() => fullViewImg(message.picture)}
                 id="img-message"
                 className="h-4/5 pb-10 mx-auto shadow-lg  rounded-sm my-2"
-                src={`/uploads/users/${message.picture}`}
+                src={`${__dirname}/uploads/users/${message.picture}`}
                 alt={message.content}
               />
             )}

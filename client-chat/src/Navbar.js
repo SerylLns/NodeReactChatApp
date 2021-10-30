@@ -50,7 +50,7 @@ export default function Navbar({
   return (
     <div
       id={`${mobileMenuOpen ? "navbar-open" : "navbar"}`}
-      className="flex flex-col border-r relative border-gray-200 h-full pt-5 pb-4 bg-white overflow-y-auto"
+      className="flex flex-col border-r relative border-gray-200  h-full pt-5 pb-4 bg-white overflow-y-auto"
     >
       <div id="close-menu">
         <XIcon
