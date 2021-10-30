@@ -37,11 +37,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/chatrooms", messageRoutes );
 
 // PROD
-// app.use(express.static("client-chat/build"));
-// app.get("/*", (_, res) => {
-//   res.sendFile(path.join(__dirname, "./client-chat/public/index.html"));
-
-// });
+app.use(express.static("client-chat/build"));
+app.get("/*", (_, res) => {
+  res.sendFile(path.join(__dirname, "./client-chat/public/index.html"));
+});
 
 const server = http.createServer(app)
 
