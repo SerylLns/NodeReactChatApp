@@ -14,7 +14,7 @@ const app = express();
 
 // CORS
 const corsOptions = {
-  origin: `http://www.localhost:3000`,
+  origin: `https://whispering-plateau-71209.herokuapp.com`,
   credentials: true,
   allowedHeaders: ["sessionId", "Content-Type"],
   exposedHeaders: ["sessionId"],
